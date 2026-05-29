@@ -61,8 +61,6 @@
 
 - ✅ Phân tích **tổng hợp** (toàn quốc, theo tỉnh, theo môn).
 - ✅ Dữ liệu đã **làm sạch** (`cleaned_data.csv`).
-- ❌ **Không** dự đoán điểm từng cá nhân theo `SBD`.
-- ❌ **Không** thu thập/scrape dữ liệu mới từ Bộ GD&ĐT.
 
 ---
 
