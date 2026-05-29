@@ -12,4 +12,4 @@ if (-not (Test-Path ".venv\Scripts\Activate.ps1")) {
 }
 python scripts/run_all.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-Write-Host "`nXong! Mo reports/BAO_CAO.md va outputs/figures/" -ForegroundColor Green
+Write-Host "`nXong! Mo README.md va outputs/figures/" -ForegroundColor Green

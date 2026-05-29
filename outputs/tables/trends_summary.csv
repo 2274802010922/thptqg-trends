@@ -1,14 +1,14 @@
-Mon,mean_first,mean_last,change_pct,pct_ge_8_first,pct_ge_8_last
-CongNgheCongNghiep,6.2643,6.2786,0.23,0.0,19.38
-CongNgheNongNghiep,7.4573,7.8568,5.36,41.06,52.5
-DiaLy,6.8285,6.5641,-3.87,17.61,24.19
-GDCD,8.2346,8.0199,-2.61,66.92,60.91
-HoaHoc,6.3569,5.5132,-13.27,22.63,11.2
-KinhTePhapLuat,7.9815,7.5125,-5.88,59.7,42.77
-LichSu,4.9192,6.457,31.26,5.82,20.57
-NgoaiNgu,6.6883,4.9198,-26.44,42.53,2.69
-NguVan,6.7292,6.9498,3.28,20.85,22.53
-SinhHoc,5.239,5.4509,4.04,5.18,5.16
-TinHoc,7.5142,6.3412,-15.61,41.89,15.63
-Toan,7.0221,4.1808,-40.46,36.15,1.71
-VatLy,6.5718,6.4885,-1.27,20.1,19.32
+Mon,Môn,mean_first,mean_last,change_pct,pct_ge_8_last
+CongNgheCongNghiep,Công nghệ công nghiệp,5.7926,5.7926,0.0,11.22
+CongNgheNongNghiep,Công nghệ nông nghiệp,7.7159,7.7159,0.0,48.8
+GDCD,GDCD,8.3746,8.1568,-2.6,65.84
+HoaHoc,Hóa học,6.6306,6.0649,-8.53,19.29
+KinhTePhapLuat,Kinh tế & Pháp luật,7.6914,7.6914,0.0,49.12
+LichSu,Lịch sử,4.9717,6.5193,31.13,23.03
+NgoaiNgu,Ngoại ngữ,5.8499,5.4055,-7.6,6.05
+NguVan,Ngữ văn,6.4705,7.0021,8.22,26.69
+SinhHoc,Sinh học,5.516,5.7783,4.76,10.83
+TinHoc,Tin học,6.7828,6.7828,0.0,24.8
+Toan,Toán,6.6138,4.7831,-27.68,5.45
+VatLy,Vật lý,6.5665,6.9851,6.37,30.79
+DiaLy,Địa lý,6.9564,6.6279,-4.72,26.68
