@@ -29,7 +29,7 @@
 
 ---
 
-## Đọc trước — Dành cho người chưa quen phân tích dữ liệu
+## Đọc trước 
 
 Báo cáo này dùng **số liệu điểm thi THPT quốc gia** (2021–2025) để trả lời ba câu hỏi đơn giản:
 
