@@ -1,20 +1,18 @@
-﻿# Workflow do an
+﻿# Workflow
 
-## Giai doan 1 — Validate
-- Chay `scripts/run_validate.py`
-- Chot nam 2021-2025 trong `src/config.py`
+## Google Colab (chinh)
 
-## Giai doan 2 — Aggregate
-- `save_aggregates()` → CSV nho trong `outputs/tables/`
+1. Mo [colab/THPTQG_Colab.ipynb](https://colab.research.google.com/github/2274802010922/thptqg-trends/blob/main/colab/THPTQG_Colab.ipynb)
+2. Chay cell 1-8 lan luot
+3. Dat CSV tren Drive hoac upload
+4. Tai zip ket qua ve may
 
-## Giai doan 3 — EDA
-- Notebook 02, bieu do trong `outputs/figures/`
+## Windows (tuy chon)
 
-## Giai doan 4 — Xu huong
-- Notebook 03, so sanh mean/pct>=8 theo nam
+```powershell
+.\run.ps1
+```
 
-## Giai doan 5 — Du bao
-- Backtest nam cuoi, du bao 2026 trong notebook 04
+## Cac buoc pipeline
 
-## Giai doan 6 — Public
-- Push repo, dinh kem figures + aggregate tables
+Validate → Aggregate → Forecast → Charts → Report
