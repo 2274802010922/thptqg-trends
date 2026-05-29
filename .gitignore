@@ -1,0 +1,13 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+data/cleaned_data.csv
+*.csv
+!data/provinces.csv
+!outputs/tables/*.csv
+.DS_Store
+Thumbs.db

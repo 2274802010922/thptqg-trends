@@ -1,0 +1,1 @@
+"""THPTQG trends."""
