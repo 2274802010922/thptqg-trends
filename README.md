@@ -6,7 +6,7 @@
 
 Đồ án phân tích dữ liệu điểm **Kỳ thi tốt nghiệp THPT quốc gia** (2021–2025). **Toàn bộ báo cáo nằm trong file README này.**
 
-**Cập nhật lần chạy pipeline gần nhất:** 29/05/2026 19:05
+**Cập nhật lần chạy pipeline gần nhất:** 29/05/2026 
 
 ---
 
