@@ -31,6 +31,15 @@ def plot_mean_by_year(by_year_subject, subject="Toan", out_path=None):
     ax.set_ylabel("Điểm trung bình")
     ax.set_title(f"Xu hướng điểm TB — {subject_vi(subject)}")
     ax.set_xticks(df["Nam"])
+    for _, row in df.iterrows():
+        ax.annotate(
+            f"{row['mean']:.2f}",
+            (row["Nam"], row["mean"]),
+            textcoords="offset points",
+            xytext=(0, 8),
+            ha="center",
+            fontsize=8,
+        )
     fig.tight_layout()
     out_path = out_path or FIGURES_DIR / f"mean_by_year_{subject}.png"
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -130,6 +139,26 @@ def plot_forecast(subject, tables_dir=TABLES_DIR, out_path=None):
     ax.set_ylabel("Điểm TB")
     ax.set_title(f"Dự báo — {subject_vi(subject)}")
     ax.legend()
+    for _, row in actual.iterrows():
+        ax.annotate(
+            f"{row['value']:.2f}",
+            (row["Nam"], row["value"]),
+            textcoords="offset points",
+            xytext=(0, 8),
+            ha="center",
+            fontsize=8,
+        )
+    if not pred.empty:
+        row = pred.iloc[0]
+        ax.annotate(
+            f"{row['value']:.2f}",
+            (row["Nam"], row["value"]),
+            textcoords="offset points",
+            xytext=(0, 8),
+            ha="center",
+            fontsize=8,
+            color="#dc2626",
+        )
     fig.tight_layout()
     out_path = out_path or FIGURES_DIR / f"forecast_{subject}.png"
     out_path.parent.mkdir(parents=True, exist_ok=True)
