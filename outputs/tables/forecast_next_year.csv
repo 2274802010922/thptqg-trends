@@ -1,7 +1,7 @@
-Mon,forecast_year,forecast_mean,backtest_year,backtest_actual,backtest_predicted,backtest_mae
-Toan,2026,5.0081,2025,4.7831,6.2657,1.4826
-NguVan,2026,7.35,2025,7.0021,7.4253,0.4232
-NgoaiNgu,2026,5.3221,2025,5.4055,5.3282,0.0773
-VatLy,2026,6.9374,2025,6.9851,6.6707,0.3144
-HoaHoc,2026,6.2187,2025,6.0649,6.7381,0.6732
-SinhHoc,2026,6.3357,2025,5.7783,6.7244,0.9461
+Mon,forecast_year,forecast_mean,forecast_lower,forecast_upper,selected_model,selected_model_label,backtest_n,backtest_mae,backtest_rmse,backtest_mape,backtest_bias,backtest_year,backtest_actual,backtest_predicted,backtest_abs_error
+Toan,2026,5.827,3.6026,8.0514,moving_average_3,Trung bình trượt 3 năm,2,0.8044,1.1349,16.8064,0.8006,2025,4.7831,6.3881,1.605
+NguVan,2026,7.1167,6.3548,7.8786,moving_average_2,Trung bình trượt 2 năm,2,0.2954,0.3887,4.0951,-0.2527,2025,7.0021,7.0449,0.0427
+NgoaiNgu,2026,5.4633,5.3133,5.6133,moving_average_3,Trung bình trượt 3 năm,2,0.0284,0.0286,0.5192,-0.0284,2025,5.4055,5.3807,0.0248
+VatLy,2026,6.9373,6.4985,7.3761,linear_trend,Hồi quy tuyến tính,2,0.1761,0.2239,2.5338,-0.1761,2025,6.9851,6.6707,0.3144
+HoaHoc,2026,6.4969,5.6027,7.3911,moving_average_3,Trung bình trượt 3 năm,2,0.3286,0.4562,5.4085,0.3286,2025,6.0649,6.7099,0.645
+SinhHoc,2026,5.7783,5.06,6.4966,naive_last,Naive: lấy năm gần nhất,2,0.3085,0.3665,5.2618,0.3085,2025,5.7783,6.2847,0.5064

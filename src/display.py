@@ -43,10 +43,22 @@ def pretty_forecast(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     out["Môn"] = out["Mon"].map(subject_vi)
     out["Năm dự báo"] = out["forecast_year"].astype(int)
+    out["Mô hình chọn"] = out.get("selected_model_label", "—")
     out["Điểm TB dự kiến"] = out["forecast_mean"].map(lambda x: fmt_float(x, 3))
+    if {"forecast_lower", "forecast_upper"}.issubset(out.columns):
+        out["Khoảng dự báo"] = out.apply(
+            lambda r: f"{fmt_float(r['forecast_lower'], 3)}–{fmt_float(r['forecast_upper'], 3)}"
+            if pd.notna(r.get("forecast_lower")) and pd.notna(r.get("forecast_upper"))
+            else "—",
+            axis=1,
+        )
     out["MAE backtest"] = out["backtest_mae"].map(lambda x: fmt_float(x, 4) if pd.notna(x) else "—")
-    cols = ["Môn", "Năm dự báo", "Điểm TB dự kiến", "MAE backtest"]
-    if "backtest_actual" in out.columns:
-        out["Thực tế năm cuối"] = out["backtest_actual"].map(lambda x: fmt_float(x, 3))
-        cols.append("Thực tế năm cuối")
+    if "backtest_rmse" in out.columns:
+        out["RMSE backtest"] = out["backtest_rmse"].map(lambda x: fmt_float(x, 4) if pd.notna(x) else "—")
+    cols = ["Môn", "Năm dự báo", "Mô hình chọn", "Điểm TB dự kiến"]
+    if "Khoảng dự báo" in out.columns:
+        cols.append("Khoảng dự báo")
+    cols.append("MAE backtest")
+    if "RMSE backtest" in out.columns:
+        cols.append("RMSE backtest")
     return out[cols]

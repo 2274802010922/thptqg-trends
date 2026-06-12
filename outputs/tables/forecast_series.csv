@@ -1,37 +1,37 @@
-Nam,value,type,Mon
-2021,6.6138,actual,Toan
-2022,6.4663,actual,Toan
-2023,6.2506,actual,Toan
-2024,6.4473,actual,Toan
-2025,4.7831,actual,Toan
-2026,5.0081,forecast,Toan
-2021,6.4705,actual,NguVan
-2022,6.508,actual,NguVan
-2023,6.8584,actual,NguVan
-2024,7.2313,actual,NguVan
-2025,7.0021,actual,NguVan
-2026,7.35,forecast,NguVan
-2021,5.8499,actual,NgoaiNgu
-2022,5.1577,actual,NgoaiNgu
-2023,5.4624,actual,NgoaiNgu
-2024,5.522,actual,NgoaiNgu
-2025,5.4055,actual,NgoaiNgu
-2026,5.3221,forecast,NgoaiNgu
-2021,6.5665,actual,VatLy
-2022,6.724,actual,VatLy
-2023,6.5741,actual,VatLy
-2024,6.6669,actual,VatLy
-2025,6.9851,actual,VatLy
-2026,6.9374,forecast,VatLy
-2021,6.6306,actual,HoaHoc
-2022,6.7041,actual,HoaHoc
-2023,6.7447,actual,HoaHoc
-2024,6.681,actual,HoaHoc
-2025,6.0649,actual,HoaHoc
-2026,6.2187,forecast,HoaHoc
-2021,5.516,actual,SinhHoc
-2022,5.0197,actual,SinhHoc
-2023,6.3953,actual,SinhHoc
-2024,6.2847,actual,SinhHoc
-2025,5.7783,actual,SinhHoc
-2026,6.3357,forecast,SinhHoc
+Nam,value,type,model,Mon,selected_model,selected_model_label,lower,upper
+2021,6.6138,actual,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,,
+2022,6.4663,actual,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,,
+2023,6.2506,actual,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,,
+2024,6.4473,actual,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,,
+2025,4.7831,actual,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,,
+2026,5.827,forecast,moving_average_3,Toan,moving_average_3,Trung bình trượt 3 năm,3.6026,8.0514
+2021,6.4705,actual,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,,
+2022,6.508,actual,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,,
+2023,6.8584,actual,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,,
+2024,7.2313,actual,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,,
+2025,7.0021,actual,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,,
+2026,7.1167,forecast,moving_average_2,NguVan,moving_average_2,Trung bình trượt 2 năm,6.3548,7.8786
+2021,5.8499,actual,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,,
+2022,5.1577,actual,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,,
+2023,5.4624,actual,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,,
+2024,5.522,actual,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,,
+2025,5.4055,actual,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,,
+2026,5.4633,forecast,moving_average_3,NgoaiNgu,moving_average_3,Trung bình trượt 3 năm,5.3133,5.6133
+2021,6.5665,actual,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,,
+2022,6.724,actual,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,,
+2023,6.5741,actual,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,,
+2024,6.6669,actual,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,,
+2025,6.9851,actual,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,,
+2026,6.9373,forecast,linear_trend,VatLy,linear_trend,Hồi quy tuyến tính,6.4985,7.3761
+2021,6.6306,actual,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,,
+2022,6.7041,actual,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,,
+2023,6.7447,actual,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,,
+2024,6.681,actual,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,,
+2025,6.0649,actual,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,,
+2026,6.4969,forecast,moving_average_3,HoaHoc,moving_average_3,Trung bình trượt 3 năm,5.6027,7.3911
+2021,5.516,actual,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,,
+2022,5.0197,actual,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,,
+2023,6.3953,actual,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,,
+2024,6.2847,actual,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,,
+2025,5.7783,actual,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,,
+2026,5.7783,forecast,naive_last,SinhHoc,naive_last,Naive: lấy năm gần nhất,5.06,6.4966

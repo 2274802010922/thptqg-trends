@@ -12,6 +12,7 @@ from src.aggregates import save_aggregates
 from src.plots import generate_all_figures
 from src.forecast import run_forecast_pipeline
 from src.readme_builder import build_readme
+from src.report import generate_report
 
 
 def step(name):
@@ -41,13 +42,16 @@ def main():
     for f in generate_all_figures():
         print(f"  {f.name}")
 
-    step("5/5 Cap nhat README.md (bao cao duy nhat)")
+    step("5/5 Cap nhat README.md va docs/report.md")
     readme = build_readme()
     print(f"  {readme}")
+    report = generate_report()
+    print(f"  {report}")
 
     elapsed = time.time() - t0
     print(f"\nHOAN TAT trong {elapsed/60:.1f} phut.")
     print(f"  README: {PROJECT_ROOT / 'README.md'}")
+    print(f"  Report: {PROJECT_ROOT / 'docs' / 'report.md'}")
     print(f"  Bang: {TABLES_DIR}")
     print(f"  Hinh: {FIGURES_DIR}")
 

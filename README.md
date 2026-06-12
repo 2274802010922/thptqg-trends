@@ -6,7 +6,7 @@
 
 Đồ án phân tích dữ liệu điểm **Kỳ thi tốt nghiệp THPT quốc gia** (2021–2025). **Toàn bộ báo cáo nằm trong file README này** — viết sao cho **giáo viên, phụ huynh, sinh viên ngành khác** cũng đọc được.
 
-**Cập nhật lần chạy pipeline gần nhất:** 29/05/2026 19:17
+**Cập nhật lần chạy pipeline gần nhất:** 12/06/2026 20:06
 
 ---
 
@@ -29,7 +29,7 @@
 
 ---
 
-## Đọc trước 
+## Đọc trước — Dành cho người chưa quen phân tích dữ liệu
 
 Báo cáo này dùng **số liệu điểm thi THPT quốc gia** (2021–2025) để trả lời ba câu hỏi đơn giản:
 
@@ -69,7 +69,7 @@ Báo cáo này dùng **số liệu điểm thi THPT quốc gia** (2021–2025) �
 |----------|---------|--------------|
 | Phạm vi | 2021 – 2025 | 5 kỳ thi liên tiếp |
 | Tổng thí sinh (cộng 5 năm) | **5.197.946** | Tổng lượt có trong dữ liệu |
-| Mô hình dự báo | Hồi quy tuyến tính | Ước lượng xu hướng, không phải điểm chính thức |
+| Mô hình dự báo | Chọn theo rolling backtest | So sánh baseline, trung bình trượt, hồi quy tuyến tính, san bằng mũ |
 
 - Số thí sinh mỗi năm **tăng dần**: 987.704 (2021) → 1.131.136 (2025), tức **+14.5%**.
 - Môn **tăng** mạnh nhất (TB 2021→2025): **Lịch sử** (+31.1%).
@@ -101,11 +101,26 @@ Báo cáo này dùng **số liệu điểm thi THPT quốc gia** (2021–2025) �
 
 | | |
 |---|---|
-| **Google Drive** | [cleaned_data.csv](https://drive.google.com/file/d/1FIU_8XT4pIC261SwYtmwTDLFP2H_WAUc/view?usp=sharing) |
+| **Google Drive** | [cleaned_data.csv](https://drive.google.com/file/d/1FIU_8XT4pIC261SwYtmwTDLFP2H_WAUc/view) |
 | **File ID** | `1FIU_8XT4pIC261SwYtmwTDLFP2H_WAUc` |
 | **Local (Windows)** | `D:\do an thuc tap\cleaned_data.csv` |
+| **Dung lượng** | `843,891,415` bytes |
+| **SHA256** | `E11EC167D7073192F719C5A09B2A91556631CA897E998467C2BAF8CA485E86B0` |
 
-File CSV khoảng **805 MB** — quá lớn để đưa lên GitHub, nên tải riêng từ Drive hoặc đặt đúng đường dẫn local rồi chạy pipeline.
+File CSV khoảng **844 MB** — quá lớn để đưa lên GitHub, nên tải riêng từ Drive hoặc đặt đúng đường dẫn local rồi chạy pipeline.
+
+Raw CSV có **6,068,463 dòng** trong giai đoạn 2020–2025. Đồ án này cố ý chọn **2021–2025** để đúng phạm vi 5 năm gần nhất:
+
+| Năm | Số dòng raw |
+|-----|-------------|
+| 2020 | 870.517 |
+| 2021 | 987.704 |
+| 2022 | 995.441 |
+| 2023 | 1.022.060 |
+| 2024 | 1.061.605 |
+| 2025 | 1.131.136 |
+
+Chi tiết schema nằm ở [`docs/data_dictionary.md`](docs/data_dictionary.md); hướng dẫn dữ liệu nằm ở [`data/README.md`](data/README.md).
 
 ---
 
@@ -133,9 +148,10 @@ Chúng tôi xử lý file điểm thi lớn (~805 MB) theo các bước:
 |------|---------|----------------|
 | 1. Kiểm tra | Đếm số dòng, số năm | Giống kiểm tra sổ điểm có đủ 5 năm không |
 | 2. Tổng hợp | Tính TB, % điểm ≥ 8 theo năm/môn/tỉnh | Giống tính điểm TB môn Toán cả nước mỗi năm |
-| 3. Dự báo | Vẽ đường xu hướng và kéo dài 1 năm | Giống nhìn 5 năm mưa nhiều/ít rồi đoán năm sau |
-| 4. Vẽ hình | Tạo biểu đồ trong `outputs/figures/` | Để mắt thường nhìn thấy xu hướng |
-| 5. Viết README | Gom báo cáo vào file này | Một tài liệu duy nhất, dễ đọc |
+| 3. Backtest | Giấu năm cuối, cho mô hình đoán lại, rồi đo sai số | Giống thử đề trước khi thi thật |
+| 4. So sánh mô hình | Naive, trung bình trượt, hồi quy tuyến tính, san bằng mũ | Chọn cách dự báo có sai số thấp nhất từng môn |
+| 5. Vẽ hình | Tạo biểu đồ trong `outputs/figures/` | Để mắt thường nhìn thấy xu hướng |
+| 6. Viết báo cáo | Gom README và report học thuật | Một tài liệu GitHub + một tài liệu đồ án |
 
 **Công cụ kỹ thuật:** Python (pandas, matplotlib). Chi tiết code nằm trong thư mục `src/`.
 
@@ -215,30 +231,37 @@ Phần này trả lời bằng **số và bảng**. Nếu bạn thấy khó, hã
 
 ---
 
-## 7. Dự báo 2026 — Giải thích cho người không chuyên
+## 7. Dự báo 2026 — Có backtest và so sánh mô hình
 
 ### Dự báo này là gì?
 
-Hệ thống nhìn **điểm TB 5 năm qua** của mỗi môn, vẽ một **đường thẳng xu hướng**, rồi **ước lượng năm 2026** nằm trên đường đó.
+Hệ thống nhìn **điểm TB 5 năm qua** của mỗi môn, thử nhiều cách dự báo đơn giản, đo sai số bằng backtest, rồi chọn mô hình có sai số thấp nhất cho từng môn.
 
 - **Không phải** đề thi hay thang điểm chính thức năm sau.
 - **Không dự đoán** điểm của bạn hay của một trường cụ thể.
-- Chỉ trả lời: *“Nếu xu hướng 5 năm tiếp tục tương tự, TB toàn quốc có thể quanh X điểm.”*
+- Chỉ trả lời: *“Nếu xu hướng gần đây tiếp tục tương tự, TB toàn quốc có thể quanh X điểm.”*
 
-### Kiểm tra độ tin cậy (backtest)
+### Mô hình được so sánh
 
-Trước khi nói về 2026, mô hình thử **đoán năm 2025** bằng dữ liệu các năm trước, rồi so với điểm thật — cột **MAE** cho biết lệch trung bình bao nhiêu điểm.
+- **Naive:** lấy điểm trung bình năm gần nhất làm dự báo.
+- **Trung bình trượt:** lấy trung bình 2 hoặc 3 năm gần nhất.
+- **Hồi quy tuyến tính:** vẽ xu hướng tăng/giảm theo thời gian.
+- **San bằng mũ đơn:** ưu tiên dữ liệu gần đây hơn dữ liệu cũ.
 
-| Môn | Dự báo 2026 | Thực tế 2025 | MAE (sai số) |
-|-----|-------------|-------------------|--------------|
-| Toán | 5,008 | 4,783 | 1,4826 |
-| Ngữ văn | 7,350 | 7,002 | 0,4232 |
-| Ngoại ngữ | 5,322 | 5,405 | 0,0773 |
-| Vật lý | 6,937 | 6,985 | 0,3144 |
-| Hóa học | 6,219 | 6,065 | 0,6732 |
-| Sinh học | 6,336 | 5,778 | 0,9461 |
+### Kiểm tra độ tin cậy (rolling backtest)
 
-**Cách đọc MAE:** MAE = 0,10 nghĩa là dự đoán lệch khoảng **0,1 điểm** so với thực tế; MAE = 1,0 nghĩa là lệch khoảng **1 điểm** — khi đó nên coi dự báo là **định hướng**, không phải con số chính xác.
+Pipeline dùng rolling backtest: ví dụ lấy 2021-2023 để đoán 2024, rồi lấy 2021-2024 để đoán 2025. Cột **MAE** cho biết mô hình lệch trung bình bao nhiêu điểm; **RMSE** phạt nặng hơn khi có lần lệch lớn.
+
+| Môn | Mô hình chọn | Dự báo 2026 | Khoảng dự báo | MAE | RMSE |
+|-----|--------------|-------------|---------------|-----|------|
+| Toán | Trung bình trượt 3 năm | 5,827 | 3,603–8,051 | 0,8044 | 1,1349 |
+| Ngữ văn | Trung bình trượt 2 năm | 7,117 | 6,355–7,879 | 0,2954 | 0,3887 |
+| Ngoại ngữ | Trung bình trượt 3 năm | 5,463 | 5,313–5,613 | 0,0284 | 0,0286 |
+| Vật lý | Hồi quy tuyến tính | 6,937 | 6,498–7,376 | 0,1761 | 0,2239 |
+| Hóa học | Trung bình trượt 3 năm | 6,497 | 5,603–7,391 | 0,3286 | 0,4562 |
+| Sinh học | Naive: lấy năm gần nhất | 5,778 | 5,060–6,497 | 0,3085 | 0,3665 |
+
+**Cách đọc:** MAE = 0,10 nghĩa là dự đoán thường lệch khoảng **0,1 điểm**; MAE = 1,0 nghĩa là lệch khoảng **1 điểm**. Khoảng dự báo càng rộng thì kết quả càng nên xem là **định hướng**, không phải con số chắc chắn.
 
 ---
 
@@ -1006,26 +1029,28 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Hóa học qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Hóa học qua các năm; đường đỏ = **ước lượng** năm tới bằng Trung bình trượt 3 năm.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Trung bình trượt 3 năm**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
-- Dự báo **2026:** **6,219** điểm.
+- Dự báo **2026:** **6,497** điểm.
+- Khoảng dự báo: **5,603–7,391** điểm.
 - Thực tế **2025:** **6,065** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **0,6732** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,3286** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **0,4562** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
-- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.15** điểm.
+- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.43** điểm.
 - Dự báo **không cùng chiều** xu hướng 5 năm — mô hình tuyến tính có thể bị ảnh hưởng bởi năm đột biến.
-- MAE cao → nên trình bày dự báo kèm **khoảng tin cậy / giới hạn mô hình** trong báo cáo đồ án.
 
-**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Hóa học năm tới có thể quanh **6,219** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
+**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Hóa học năm tới có thể quanh **6,497** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
 
 ![Dự báo Hóa học](outputs/figures/forecast_HoaHoc.png)
 
@@ -1033,25 +1058,28 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Ngoại ngữ qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Ngoại ngữ qua các năm; đường đỏ = **ước lượng** năm tới bằng Trung bình trượt 3 năm.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Trung bình trượt 3 năm**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
-- Dự báo **2026:** **5,322** điểm.
+- Dự báo **2026:** **5,463** điểm.
+- Khoảng dự báo: **5,313–5,613** điểm.
 - Thực tế **2025:** **5,405** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **0,0773** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,0284** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **0,0286** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
-- Chênh lệch dự báo 2026 so với thực tế 2025: **-0.08** điểm.
-- Dự báo **cùng chiều** xu hướng giảm 5 năm qua.
+- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.06** điểm.
+- Dự báo **không cùng chiều** xu hướng 5 năm — mô hình tuyến tính có thể bị ảnh hưởng bởi năm đột biến.
 
-**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Ngoại ngữ năm tới có thể quanh **5,322** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
+**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Ngoại ngữ năm tới có thể quanh **5,463** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
 
 ![Dự báo Ngoại ngữ](outputs/figures/forecast_NgoaiNgu.png)
 
@@ -1059,25 +1087,28 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Ngữ văn qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Ngữ văn qua các năm; đường đỏ = **ước lượng** năm tới bằng Trung bình trượt 2 năm.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Trung bình trượt 2 năm**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
-- Dự báo **2026:** **7,350** điểm.
+- Dự báo **2026:** **7,117** điểm.
+- Khoảng dự báo: **6,355–7,879** điểm.
 - Thực tế **2025:** **7,002** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **0,4232** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,2954** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **0,3887** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
-- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.35** điểm.
+- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.11** điểm.
 - Dự báo **cùng chiều** xu hướng tăng 5 năm qua.
 
-**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Ngữ văn năm tới có thể quanh **7,350** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
+**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Ngữ văn năm tới có thể quanh **7,117** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
 
 ![Dự báo Ngữ văn](outputs/figures/forecast_NguVan.png)
 
@@ -1085,26 +1116,28 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Sinh học qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Sinh học qua các năm; đường đỏ = **ước lượng** năm tới bằng Naive: lấy năm gần nhất.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Naive: lấy năm gần nhất**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
-- Dự báo **2026:** **6,336** điểm.
+- Dự báo **2026:** **5,778** điểm.
+- Khoảng dự báo: **5,060–6,497** điểm.
 - Thực tế **2025:** **5,778** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **0,9461** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,3085** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **0,3665** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
-- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.56** điểm.
-- Dự báo **cùng chiều** xu hướng tăng 5 năm qua.
-- MAE cao → nên trình bày dự báo kèm **khoảng tin cậy / giới hạn mô hình** trong báo cáo đồ án.
+- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.00** điểm.
+- Dự báo **không cùng chiều** xu hướng 5 năm — mô hình tuyến tính có thể bị ảnh hưởng bởi năm đột biến.
 
-**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Sinh học năm tới có thể quanh **6,336** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
+**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Sinh học năm tới có thể quanh **5,778** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
 
 ![Dự báo Sinh học](outputs/figures/forecast_SinhHoc.png)
 
@@ -1112,26 +1145,29 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Toán qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Toán qua các năm; đường đỏ = **ước lượng** năm tới bằng Trung bình trượt 3 năm.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Trung bình trượt 3 năm**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
-- Dự báo **2026:** **5,008** điểm.
+- Dự báo **2026:** **5,827** điểm.
+- Khoảng dự báo: **3,603–8,051** điểm.
 - Thực tế **2025:** **4,783** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **1,4826** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,8044** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **1,1349** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
-- Chênh lệch dự báo 2026 so với thực tế 2025: **+0.22** điểm.
+- Chênh lệch dự báo 2026 so với thực tế 2025: **+1.04** điểm.
 - Dự báo **không cùng chiều** xu hướng 5 năm — mô hình tuyến tính có thể bị ảnh hưởng bởi năm đột biến.
 - MAE cao → nên trình bày dự báo kèm **khoảng tin cậy / giới hạn mô hình** trong báo cáo đồ án.
 
-**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Toán năm tới có thể quanh **5,008** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
+**Kết luận dễ hiểu:** Nếu xu hướng 5 năm giữ nguyên, TB môn Toán năm tới có thể quanh **5,827** điểm — nhưng thực tế còn phụ thuộc đề thi, quy chế và số người thi.
 
 ![Dự báo Toán](outputs/figures/forecast_Toan.png)
 
@@ -1139,19 +1175,22 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 **Điều này có nghĩa là gì?**
 
-- Đường xanh = điểm TB thật của môn Vật lý qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.
+- Đường xanh = điểm TB thật của môn Vật lý qua các năm; đường đỏ = **ước lượng** năm tới bằng Hồi quy tuyến tính.
 - Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.
-- Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.
+- Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.
 
 **Chú thích biểu đồ:**
 - **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.
-- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.
-- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.
+- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **Hồi quy tuyến tính**.
+- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.
+- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.
 
 **Kết quả dự báo:**
 - Dự báo **2026:** **6,937** điểm.
+- Khoảng dự báo: **6,498–7,376** điểm.
 - Thực tế **2025:** **6,985** điểm.
-- **MAE backtest** (dự báo 2025 từ 2021–2024): **0,3144** — càng nhỏ càng sát lịch sử gần.
+- **MAE backtest:** **0,1761** — càng nhỏ càng sát lịch sử gần.
+- **RMSE backtest:** **0,2239** — phạt nặng hơn khi có lần dự báo lệch lớn.
 
 **Phân tích:**
 - Chênh lệch dự báo 2026 so với thực tế 2025: **-0.05** điểm.
@@ -1168,12 +1207,18 @@ Phần này dành cho **mọi độc giả** — kể cả người chưa từng
 
 ```text
 thptqg-trends/
+├── .github/workflows/ci.yml
 ├── README.md              ← Báo cáo duy nhất (file này)
+├── .env.example           ← Mẫu cấu hình đường dẫn raw CSV
 ├── run.ps1 / run.bat
 ├── colab/THPTQG_Colab.ipynb
 ├── data/provinces.csv
+├── data/README.md
+├── docs/data_dictionary.md
+├── docs/report.md
 ├── src/                   ← Pipeline Python
 ├── scripts/run_all.py
+├── tests/                 ← Unit tests tối thiểu
 ├── outputs/tables/        ← CSV tổng hợp
 └── outputs/figures/       ← Biểu đồ PNG
 ```
@@ -1186,18 +1231,20 @@ thptqg-trends/
 
 1. Mở [THPTQG_Colab.ipynb](https://colab.research.google.com/github/2274802010922/thptqg-trends/blob/main/colab/THPTQG_Colab.ipynb)
 2. Chạy lần lượt các cell từ trên xuống
-3. Tải dataset từ [Google Drive](https://drive.google.com/file/d/1FIU_8XT4pIC261SwYtmwTDLFP2H_WAUc/view?usp=sharing) (hoặc mount Drive nếu notebook hỗ trợ)
-4. Cell cuối: zip `outputs/` + `README.md` và tải về
+3. Tải dataset từ [Google Drive](https://drive.google.com/file/d/1FIU_8XT4pIC261SwYtmwTDLFP2H_WAUc/view) hoặc mount Drive
+4. Chạy pipeline để sinh lại `outputs/`, `README.md`, `docs/report.md`
+5. Cell cuối: zip kết quả và tải về
 
 ### Windows (máy local)
 
 ```powershell
 git clone https://github.com/2274802010922/thptqg-trends.git
 cd thptqg-trends
+$env:THPTQG_CSV_PATH="D:\do an thuc tap\cleaned_data.csv"
 .\run.ps1
 ```
 
-Lệnh trên chạy `python scripts/run_all.py` → cập nhật **README.md** và thư mục `outputs/`.
+Lệnh trên chạy `python scripts/run_all.py` → cập nhật **README.md**, `docs/report.md` và thư mục `outputs/`.
 
 ---
 
@@ -1206,8 +1253,12 @@ Lệnh trên chạy `python scripts/run_all.py` → cập nhật **README.md** v
 | File | Mô tả | Ai cần đọc? |
 |------|--------|-------------|
 | `README.md` | Báo cáo đầy đủ (tự cập nhật) | Mọi người |
+| `docs/report.md` | Báo cáo học thuật theo cấu trúc đồ án | Hội đồng / giảng viên |
+| `data/README.md` | Thông tin raw data và cách cấu hình | Người muốn chạy lại |
+| `docs/data_dictionary.md` | Giải thích schema dữ liệu | Người kiểm chứng dữ liệu |
+| `tests/` | Kiểm tra logic xử lý và dự báo bằng dữ liệu mẫu | Người review code |
 | `outputs/tables/*.csv` | Bảng số liệu thô đã tổng hợp | Người muốn tự vẽ biểu đồ / kiểm chứng |
-| `outputs/figures/*.png` | 27 biểu đồ | Slide, báo cáo miệng |
+| `outputs/figures/*.png` | Biểu đồ tổng quan, heatmap, dự báo | Slide, báo cáo miệng |
 
 ---
 
@@ -1216,6 +1267,7 @@ Lệnh trên chạy `python scripts/run_all.py` → cập nhật **README.md** v
 | Giới hạn | Giải thích đơn giản |
 |----------|---------------------|
 | Dự báo 2026 | Chỉ là **ước lượng học thuật**, không thay thế thông tin Bộ GD&ĐT |
+| Raw data | Không push lên GitHub vì quá lớn; tải qua Google Drive hoặc đặt local path |
 | Điểm 0.0 | = không thi môn → khi TB giảm, xem thêm **số người thi** |
 | So sánh tỉnh | Tỉnh ít thí sinh thi môn → số liệu dễ **lệch** |
 | Quyền riêng tư | Không public từng dòng `SBD` nếu không cần thiết |

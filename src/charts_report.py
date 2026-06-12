@@ -256,37 +256,47 @@ def _analyze_heatmap(named: pd.DataFrame, mon: str, year: int = YEAR_MAX) -> lis
 
 def _analyze_forecast(mon: str, forecast: pd.DataFrame, info: dict | None) -> list[str]:
     name = subject_vi(mon)
+    row = None
+    if not forecast.empty and mon in forecast["Mon"].values:
+        row = forecast[forecast["Mon"] == mon].iloc[0]
+    model_label = row.get("selected_model_label", "mô hình được chọn") if row is not None else "mô hình được chọn"
     lines = _layperson_box(
         "Điều này có nghĩa là gì?",
         [
-            f"Đường xanh = điểm TB thật của môn {name} qua các năm; đường đỏ = **ước lượng** năm tới nếu xu hướng cũ tiếp tục.",
+            f"Đường xanh = điểm TB thật của môn {name} qua các năm; đường đỏ = **ước lượng** năm tới bằng {model_label}.",
             "Đây là công cụ học thuật (đồ án), **không phải** thông báo điểm chính thức của Bộ.",
-            "Hãy coi con số dự báo là *khoảng tham khảo*, không phải lời hứa chính xác.",
+            "Hãy coi con số dự báo và khoảng dự báo là *tham khảo*, không phải lời hứa chính xác.",
         ],
     )
     lines += [
         "**Chú thích biểu đồ:**",
         "- **Đường xanh (tròn):** Điểm TB thực tế 2021–2025.",
-        "- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **hồi quy tuyến tính**.",
-        "- Mô hình đơn giản — phù hợp mô tả xu hướng, không thay thế dự báo chính thức.",
+        f"- **Đường đỏ (đứt, vuông):** Dự báo năm tiếp theo bằng **{model_label}**.",
+        "- **Vùng đỏ nhạt:** Khoảng dự báo ước lượng từ sai số backtest.",
+        "- Mô hình được chọn theo MAE/RMSE rolling backtest, không thay thế dự báo chính thức.",
     ]
-    if forecast.empty or mon not in forecast["Mon"].values:
+    if row is None:
         return lines
 
-    row = forecast[forecast["Mon"] == mon].iloc[0]
     pred = float(row["forecast_mean"])
     actual = float(row.get("backtest_actual") or 0)
     mae = row.get("backtest_mae")
+    rmse = row.get("backtest_rmse")
     fy = int(row["forecast_year"])
+    lower = row.get("forecast_lower")
+    upper = row.get("forecast_upper")
 
     lines += [
         "",
         "**Kết quả dự báo:**",
         f"- Dự báo **{fy}:** **{fmt_float(pred, 3)}** điểm.",
+        f"- Khoảng dự báo: **{fmt_float(lower, 3)}–{fmt_float(upper, 3)}** điểm." if pd.notna(lower) and pd.notna(upper) else "- Khoảng dự báo: chưa đủ dữ liệu.",
         f"- Thực tế **{YEAR_MAX}:** **{fmt_float(actual, 3)}** điểm.",
     ]
     if pd.notna(mae):
-        lines.append(f"- **MAE backtest** (dự báo {YEAR_MAX} từ 2021–2024): **{fmt_float(mae, 4)}** — càng nhỏ càng sát lịch sử gần.")
+        lines.append(f"- **MAE backtest:** **{fmt_float(mae, 4)}** — càng nhỏ càng sát lịch sử gần.")
+    if pd.notna(rmse):
+        lines.append(f"- **RMSE backtest:** **{fmt_float(rmse, 4)}** — phạt nặng hơn khi có lần dự báo lệch lớn.")
     delta = pred - actual
     lines += [
         "",

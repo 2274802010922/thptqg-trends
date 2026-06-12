@@ -52,9 +52,10 @@ Chúng tôi xử lý file điểm thi lớn (~805 MB) theo các bước:
 |------|---------|----------------|
 | 1. Kiểm tra | Đếm số dòng, số năm | Giống kiểm tra sổ điểm có đủ 5 năm không |
 | 2. Tổng hợp | Tính TB, % điểm ≥ 8 theo năm/môn/tỉnh | Giống tính điểm TB môn Toán cả nước mỗi năm |
-| 3. Dự báo | Vẽ đường xu hướng và kéo dài 1 năm | Giống nhìn 5 năm mưa nhiều/ít rồi đoán năm sau |
-| 4. Vẽ hình | Tạo biểu đồ trong `outputs/figures/` | Để mắt thường nhìn thấy xu hướng |
-| 5. Viết README | Gom báo cáo vào file này | Một tài liệu duy nhất, dễ đọc |
+| 3. Backtest | Giấu năm cuối, cho mô hình đoán lại, rồi đo sai số | Giống thử đề trước khi thi thật |
+| 4. So sánh mô hình | Naive, trung bình trượt, hồi quy tuyến tính, san bằng mũ | Chọn cách dự báo có sai số thấp nhất từng môn |
+| 5. Vẽ hình | Tạo biểu đồ trong `outputs/figures/` | Để mắt thường nhìn thấy xu hướng |
+| 6. Viết báo cáo | Gom README và report học thuật | Một tài liệu GitHub + một tài liệu đồ án |
 
 **Công cụ kỹ thuật:** Python (pandas, matplotlib). Chi tiết code nằm trong thư mục `src/`.
 """
@@ -65,25 +66,32 @@ def section_forecast_plain(forecast_rows: list[str]) -> str:
     return f"""
 ---
 
-## 7. Dự báo 2026 — Giải thích cho người không chuyên
+## 7. Dự báo 2026 — Có backtest và so sánh mô hình
 
 ### Dự báo này là gì?
 
-Hệ thống nhìn **điểm TB 5 năm qua** của mỗi môn, vẽ một **đường thẳng xu hướng**, rồi **ước lượng năm 2026** nằm trên đường đó.
+Hệ thống nhìn **điểm TB 5 năm qua** của mỗi môn, thử nhiều cách dự báo đơn giản, đo sai số bằng backtest, rồi chọn mô hình có sai số thấp nhất cho từng môn.
 
 - **Không phải** đề thi hay thang điểm chính thức năm sau.
 - **Không dự đoán** điểm của bạn hay của một trường cụ thể.
-- Chỉ trả lời: *“Nếu xu hướng 5 năm tiếp tục tương tự, TB toàn quốc có thể quanh X điểm.”*
+- Chỉ trả lời: *“Nếu xu hướng gần đây tiếp tục tương tự, TB toàn quốc có thể quanh X điểm.”*
 
-### Kiểm tra độ tin cậy (backtest)
+### Mô hình được so sánh
 
-Trước khi nói về 2026, mô hình thử **đoán năm {YEAR_MAX}** bằng dữ liệu các năm trước, rồi so với điểm thật — cột **MAE** cho biết lệch trung bình bao nhiêu điểm.
+- **Naive:** lấy điểm trung bình năm gần nhất làm dự báo.
+- **Trung bình trượt:** lấy trung bình 2 hoặc 3 năm gần nhất.
+- **Hồi quy tuyến tính:** vẽ xu hướng tăng/giảm theo thời gian.
+- **San bằng mũ đơn:** ưu tiên dữ liệu gần đây hơn dữ liệu cũ.
 
-| Môn | Dự báo 2026 | Thực tế {YEAR_MAX} | MAE (sai số) |
-|-----|-------------|-------------------|--------------|
+### Kiểm tra độ tin cậy (rolling backtest)
+
+Pipeline dùng rolling backtest: ví dụ lấy 2021-2023 để đoán 2024, rồi lấy 2021-2024 để đoán 2025. Cột **MAE** cho biết mô hình lệch trung bình bao nhiêu điểm; **RMSE** phạt nặng hơn khi có lần lệch lớn.
+
+| Môn | Mô hình chọn | Dự báo 2026 | Khoảng dự báo | MAE | RMSE |
+|-----|--------------|-------------|---------------|-----|------|
 {body}
 
-**Cách đọc MAE:** MAE = 0,10 nghĩa là dự đoán lệch khoảng **0,1 điểm** so với thực tế; MAE = 1,0 nghĩa là lệch khoảng **1 điểm** — khi đó nên coi dự báo là **định hướng**, không phải con số chính xác.
+**Cách đọc:** MAE = 0,10 nghĩa là dự đoán thường lệch khoảng **0,1 điểm**; MAE = 1,0 nghĩa là lệch khoảng **1 điểm**. Khoảng dự báo càng rộng thì kết quả càng nên xem là **định hướng**, không phải con số chắc chắn.
 
 ---
 """

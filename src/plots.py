@@ -58,8 +58,8 @@ def plot_pct_ge_8(by_year_subject, subjects=None, out_path=None):
         if not s.empty:
             ax.plot(s["Nam"], s["pct_ge_8"], marker="o", label=subject_vi(mon))
     ax.set_xlabel("Năm")
-    ax.set_ylabel("Tỷ lệ thí sinh đạt ≥ 8 (%)")
-    ax.set_title("Tỷ lệ điểm ≥ 8 — tất cả các môn có dữ liệu")
+    ax.set_ylabel("Tỷ lệ thí sinh đạt >= 8 (%)")
+    ax.set_title("Tỷ lệ điểm >= 8 — tất cả các môn có dữ liệu")
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8)
     fig.tight_layout()
     out_path = out_path or FIGURES_DIR / "pct_ge_8_by_year.png"
@@ -135,9 +135,19 @@ def plot_forecast(subject, tables_dir=TABLES_DIR, out_path=None):
         label="Dự báo",
         color="#dc2626",
     )
+    if not pred.empty and {"lower", "upper"}.issubset(pred.columns):
+        pi = pred.dropna(subset=["lower", "upper"])
+        if not pi.empty:
+            x = pd.to_numeric(pi["Nam"])
+            lower = pd.to_numeric(pi["lower"])
+            upper = pd.to_numeric(pi["upper"])
+            ax.fill_between(x, lower, upper, color="#dc2626", alpha=0.12, label="Khoảng dự báo")
     ax.set_xlabel("Năm")
     ax.set_ylabel("Điểm TB")
-    ax.set_title(f"Dự báo — {subject_vi(subject)}")
+    model_label = ""
+    if "selected_model_label" in df.columns and df["selected_model_label"].notna().any():
+        model_label = f" ({df['selected_model_label'].dropna().iloc[0]})"
+    ax.set_title(f"Dự báo — {subject_vi(subject)}{model_label}")
     ax.legend()
     for _, row in actual.iterrows():
         ax.annotate(

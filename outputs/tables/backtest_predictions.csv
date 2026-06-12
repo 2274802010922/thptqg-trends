@@ -1,0 +1,61 @@
+test_year,model,model_label,actual,predicted,error,abs_error,ape,Mon
+2024,naive_last,Naive: lấy năm gần nhất,6.4473,6.2506,-0.1967,0.1967,3.0509,Toan
+2024,moving_average_2,Trung bình trượt 2 năm,6.4473,6.3585,-0.0888,0.0888,1.3781,Toan
+2024,moving_average_3,Trung bình trượt 3 năm,6.4473,6.4436,-0.0037,0.0037,0.0579,Toan
+2024,linear_trend,Hồi quy tuyến tính,6.4473,6.0804,-0.3669,0.3669,5.6913,Toan
+2024,exp_smoothing,San bằng mũ đơn,6.4473,6.2736,-0.1737,0.1737,2.6935,Toan
+2025,naive_last,Naive: lấy năm gần nhất,4.7831,6.4473,1.6642,1.6642,34.7933,Toan
+2025,moving_average_2,Trung bình trượt 2 năm,4.7831,6.349,1.5659,1.5659,32.7371,Toan
+2025,moving_average_3,Trung bình trượt 3 năm,4.7831,6.3881,1.605,1.605,33.5549,Toan
+2025,linear_trend,Hồi quy tuyến tính,4.7831,6.2657,1.4826,1.4826,30.9966,Toan
+2025,exp_smoothing,San bằng mũ đơn,4.7831,6.4139,1.6308,1.6308,34.0953,Toan
+2024,naive_last,Naive: lấy năm gần nhất,7.2313,6.8584,-0.3729,0.3729,5.1567,NguVan
+2024,moving_average_2,Trung bình trượt 2 năm,7.2313,6.6832,-0.5481,0.5481,7.5796,NguVan
+2024,moving_average_3,Trung bình trượt 3 năm,7.2313,6.6123,-0.619,0.619,8.56,NguVan
+2024,linear_trend,Hồi quy tuyến tính,7.2313,7.0002,-0.2311,0.2311,3.1958,NguVan
+2024,exp_smoothing,San bằng mũ đơn,7.2313,6.823,-0.4083,0.4083,5.6465,NguVan
+2025,naive_last,Naive: lấy năm gần nhất,7.0021,7.2313,0.2292,0.2292,3.2733,NguVan
+2025,moving_average_2,Trung bình trượt 2 năm,7.0021,7.0449,0.0427,0.0427,0.6105,NguVan
+2025,moving_average_3,Trung bình trượt 3 năm,7.0021,6.8659,-0.1362,0.1362,1.9451,NguVan
+2025,linear_trend,Hồi quy tuyến tính,7.0021,7.4253,0.4232,0.4232,6.0432,NguVan
+2025,exp_smoothing,San bằng mũ đơn,7.0021,7.1905,0.1884,0.1884,2.6902,NguVan
+2024,naive_last,Naive: lấy năm gần nhất,5.522,5.4624,-0.0596,0.0596,1.0793,NgoaiNgu
+2024,moving_average_2,Trung bình trượt 2 năm,5.522,5.3101,-0.2119,0.2119,3.8383,NgoaiNgu
+2024,moving_average_3,Trung bình trượt 3 năm,5.522,5.49,-0.032,0.032,0.5795,NgoaiNgu
+2024,linear_trend,Hồi quy tuyến tính,5.522,5.1025,-0.4195,0.4195,7.5969,NgoaiNgu
+2024,exp_smoothing,San bằng mũ đơn,5.522,5.4655,-0.0565,0.0565,1.024,NgoaiNgu
+2025,naive_last,Naive: lấy năm gần nhất,5.4055,5.522,0.1165,0.1165,2.1552,NgoaiNgu
+2025,moving_average_2,Trung bình trượt 2 năm,5.4055,5.4922,0.0867,0.0867,1.6039,NgoaiNgu
+2025,moving_average_3,Trung bình trượt 3 năm,5.4055,5.3807,-0.0248,0.0248,0.4588,NgoaiNgu
+2025,linear_trend,Hồi quy tuyến tính,5.4055,5.3282,-0.0773,0.0773,1.4291,NgoaiNgu
+2025,exp_smoothing,San bằng mũ đơn,5.4055,5.5026,0.0971,0.0971,1.7954,NgoaiNgu
+2024,naive_last,Naive: lấy năm gần nhất,6.6669,6.5741,-0.0928,0.0928,1.392,VatLy
+2024,moving_average_2,Trung bình trượt 2 năm,6.6669,6.649,-0.0179,0.0179,0.2677,VatLy
+2024,moving_average_3,Trung bình trượt 3 năm,6.6669,6.6215,-0.0454,0.0454,0.6805,VatLy
+2024,linear_trend,Hồi quy tuyến tính,6.6669,6.6291,-0.0378,0.0378,0.5665,VatLy
+2024,exp_smoothing,San bằng mũ đơn,6.6669,6.5814,-0.0855,0.0855,1.2819,VatLy
+2025,naive_last,Naive: lấy năm gần nhất,6.9851,6.6669,-0.3182,0.3182,4.5554,VatLy
+2025,moving_average_2,Trung bình trượt 2 năm,6.9851,6.6205,-0.3646,0.3646,5.2197,VatLy
+2025,moving_average_3,Trung bình trượt 3 năm,6.9851,6.655,-0.3301,0.3301,4.7258,VatLy
+2025,linear_trend,Hồi quy tuyến tính,6.9851,6.6707,-0.3144,0.3144,4.501,VatLy
+2025,exp_smoothing,San bằng mũ đơn,6.9851,6.6152,-0.3699,0.3699,5.2959,VatLy
+2024,naive_last,Naive: lấy năm gần nhất,6.681,6.7447,0.0637,0.0637,0.9535,HoaHoc
+2024,moving_average_2,Trung bình trượt 2 năm,6.681,6.7244,0.0434,0.0434,0.6496,HoaHoc
+2024,moving_average_3,Trung bình trượt 3 năm,6.681,6.6931,0.0121,0.0121,0.1816,HoaHoc
+2024,linear_trend,Hồi quy tuyến tính,6.681,6.8072,0.1262,0.1262,1.8894,HoaHoc
+2024,exp_smoothing,San bằng mũ đơn,6.681,6.7399,0.0589,0.0589,0.8817,HoaHoc
+2025,naive_last,Naive: lấy năm gần nhất,6.0649,6.681,0.6161,0.6161,10.1585,HoaHoc
+2025,moving_average_2,Trung bình trượt 2 năm,6.0649,6.7128,0.6479,0.6479,10.6836,HoaHoc
+2025,moving_average_3,Trung bình trượt 3 năm,6.0649,6.7099,0.645,0.645,10.6355,HoaHoc
+2025,linear_trend,Hồi quy tuyến tính,6.0649,6.738,0.6731,0.6731,11.0991,HoaHoc
+2025,exp_smoothing,San bằng mũ đơn,6.0649,6.6869,0.622,0.622,10.2556,HoaHoc
+2024,naive_last,Naive: lấy năm gần nhất,6.2847,6.3953,0.1106,0.1106,1.7598,SinhHoc
+2024,moving_average_2,Trung bình trượt 2 năm,6.2847,5.7075,-0.5772,0.5772,9.1842,SinhHoc
+2024,moving_average_3,Trung bình trượt 3 năm,6.2847,5.6437,-0.641,0.641,10.1999,SinhHoc
+2024,linear_trend,Hồi quy tuyến tính,6.2847,6.523,0.2383,0.2383,3.7912,SinhHoc
+2024,exp_smoothing,San bằng mũ đơn,6.2847,5.5593,-0.7254,0.7254,11.5429,SinhHoc
+2025,naive_last,Naive: lấy năm gần nhất,5.7783,6.2847,0.5064,0.5064,8.7638,SinhHoc
+2025,moving_average_2,Trung bình trượt 2 năm,5.7783,6.34,0.5617,0.5617,9.7209,SinhHoc
+2025,moving_average_3,Trung bình trượt 3 năm,5.7783,5.8999,0.1216,0.1216,2.1044,SinhHoc
+2025,linear_trend,Hồi quy tuyến tính,5.7783,6.7243,0.946,0.946,16.3725,SinhHoc
+2025,exp_smoothing,San bằng mũ đơn,5.7783,5.6318,-0.1465,0.1465,2.5352,SinhHoc

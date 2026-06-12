@@ -1,0 +1,31 @@
+model,model_label,n_backtests,mae,rmse,mape,bias,Mon,is_selected
+moving_average_3,Trung bình trượt 3 năm,2,0.8044,1.1349,16.8064,0.8006,Toan,True
+moving_average_2,Trung bình trượt 2 năm,2,0.8274,1.109,17.0576,0.7386,Toan,False
+exp_smoothing,San bằng mũ đơn,2,0.9022,1.1597,18.3944,0.7286,Toan,False
+linear_trend,Hồi quy tuyến tính,2,0.9247,1.08,18.3439,0.5578,Toan,False
+naive_last,Naive: lấy năm gần nhất,2,0.9304,1.185,18.9221,0.7337,Toan,False
+moving_average_2,Trung bình trượt 2 năm,2,0.2954,0.3887,4.0951,-0.2527,NguVan,True
+exp_smoothing,San bằng mũ đơn,2,0.2984,0.318,4.1684,-0.1099,NguVan,False
+naive_last,Naive: lấy năm gần nhất,2,0.301,0.3095,4.215,-0.0719,NguVan,False
+linear_trend,Hồi quy tuyến tính,2,0.3271,0.341,4.6195,0.0961,NguVan,False
+moving_average_3,Trung bình trượt 3 năm,2,0.3776,0.4482,5.2526,-0.3776,NguVan,False
+moving_average_3,Trung bình trượt 3 năm,2,0.0284,0.0286,0.5192,-0.0284,NgoaiNgu,True
+exp_smoothing,San bằng mũ đơn,2,0.0768,0.0794,1.4097,0.0203,NgoaiNgu,False
+naive_last,Naive: lấy năm gần nhất,2,0.0881,0.0925,1.6172,0.0285,NgoaiNgu,False
+moving_average_2,Trung bình trượt 2 năm,2,0.1493,0.1619,2.7211,-0.0626,NgoaiNgu,False
+linear_trend,Hồi quy tuyến tính,2,0.2484,0.3016,4.513,-0.2484,NgoaiNgu,False
+linear_trend,Hồi quy tuyến tính,2,0.1761,0.2239,2.5338,-0.1761,VatLy,True
+moving_average_3,Trung bình trượt 3 năm,2,0.1878,0.2356,2.7031,-0.1878,VatLy,False
+moving_average_2,Trung bình trượt 2 năm,2,0.1912,0.2581,2.7437,-0.1912,VatLy,False
+naive_last,Naive: lấy năm gần nhất,2,0.2055,0.2344,2.9737,-0.2055,VatLy,False
+exp_smoothing,San bằng mũ đơn,2,0.2277,0.2685,3.2889,-0.2277,VatLy,False
+moving_average_3,Trung bình trượt 3 năm,2,0.3286,0.4562,5.4085,0.3286,HoaHoc,True
+naive_last,Naive: lấy năm gần nhất,2,0.3399,0.438,5.556,0.3399,HoaHoc,False
+exp_smoothing,San bằng mũ đơn,2,0.3404,0.4418,5.5686,0.3404,HoaHoc,False
+moving_average_2,Trung bình trượt 2 năm,2,0.3457,0.4592,5.6666,0.3457,HoaHoc,False
+linear_trend,Hồi quy tuyến tính,2,0.3997,0.4842,6.4943,0.3997,HoaHoc,False
+naive_last,Naive: lấy năm gần nhất,2,0.3085,0.3665,5.2618,0.3085,SinhHoc,True
+moving_average_3,Trung bình trượt 3 năm,2,0.3813,0.4613,6.1521,-0.2597,SinhHoc,False
+exp_smoothing,San bằng mũ đơn,2,0.436,0.5233,7.039,-0.436,SinhHoc,False
+moving_average_2,Trung bình trượt 2 năm,2,0.5695,0.5695,9.4526,-0.0078,SinhHoc,False
+linear_trend,Hồi quy tuyến tính,2,0.5921,0.6898,10.0818,0.5921,SinhHoc,False
