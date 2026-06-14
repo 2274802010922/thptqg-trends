@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.advanced_analysis import _distribution_from_hist, _score_bands_from_hist, build_forecast_reliability
 from src.aggregates import _add_series, _finalize_bucket, _new_bucket
 from src.forecast import rolling_backtest, run_forecast_pipeline
 from src.load_data import filter_years
@@ -56,6 +57,58 @@ class CorePipelineTests(unittest.TestCase):
             self.assertTrue((tmp_path / "forecast_series.csv").exists())
             self.assertTrue((tmp_path / "model_comparison.csv").exists())
             self.assertTrue((tmp_path / "backtest_predictions.csv").exists())
+
+    def test_distribution_from_hist_computes_percentiles(self):
+        hist = {
+            (2025, "Toan", 4.0): 1,
+            (2025, "Toan", 6.0): 2,
+            (2025, "Toan", 8.0): 1,
+            (2025, "Toan", 9.0): 1,
+        }
+        out = _distribution_from_hist(hist)
+        row = out.iloc[0]
+        self.assertEqual(row["count"], 5)
+        self.assertEqual(row["median"], 6.0)
+        self.assertEqual(row["p90"], 9.0)
+
+    def test_score_bands_from_hist(self):
+        hist = {
+            (2025, "Toan", 4.0): 1,
+            (2025, "Toan", 5.5): 1,
+            (2025, "Toan", 7.0): 1,
+            (2025, "Toan", 8.0): 1,
+        }
+        out = _score_bands_from_hist(hist)
+        row = out.iloc[0]
+        self.assertEqual(row["count_lt_5"], 1)
+        self.assertEqual(row["count_5_to_6_5"], 1)
+        self.assertEqual(row["count_6_5_to_8"], 1)
+        self.assertEqual(row["count_ge_8"], 1)
+
+    def test_forecast_reliability_writes_label(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            pd.DataFrame(
+                [
+                    {
+                        "Mon": "Toan",
+                        "forecast_year": 2026,
+                        "forecast_mean": 6.0,
+                        "forecast_lower": 5.5,
+                        "forecast_upper": 6.5,
+                        "selected_model": "naive_last",
+                        "selected_model_label": "Naive",
+                        "backtest_n": 2,
+                        "backtest_mae": 0.2,
+                        "backtest_rmse": 0.25,
+                        "backtest_mape": 3.0,
+                    }
+                ]
+            ).to_csv(tmp_path / "forecast_next_year.csv", index=False)
+            out_path = build_forecast_reliability(tmp_path)
+            out = pd.read_csv(out_path)
+            self.assertEqual(len(out), 1)
+            self.assertIn(out.loc[0, "reliability_label"], {"Thấp", "Trung bình", "Tương đối"})
 
 
 if __name__ == "__main__":

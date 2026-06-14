@@ -1,0 +1,7 @@
+metric,value,note
+filtered_rows,5197946,Số dòng trong phạm vi 2021-2025.
+province_count,63,Số tỉnh/thành xuất hiện trong dữ liệu.
+duplicate_sbd_year_count,0,"Số dòng trùng khóa Nam + SBD, dùng để kiểm tra chất lượng dữ liệu."
+missing_score_cells,0,Số ô điểm bị thiếu/null.
+zero_score_cells,39898347,Số ô điểm bằng 0.0; trong đồ án được hiểu là không thi môn.
+invalid_score_cells,0,Số ô điểm ngoài khoảng hợp lệ 0-10.

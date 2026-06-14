@@ -45,5 +45,18 @@ configure(csv_path="/content/drive/MyDrive/do an thuc tap/cleaned_data.csv", yea
 - Mỗi dòng tương ứng một thí sinh trong một năm thi.
 - `Nam` là năm thi.
 - `Tinh` là mã tỉnh/thành, ánh xạ tên trong `data/provinces.csv`.
+- `data/province_regions.csv` ánh xạ tỉnh/thành sang vùng để phân tích vùng miền.
 - Điểm `0.0` ở một môn được xem là **không thi môn đó** và không đưa vào mẫu tính trung bình môn.
 - Các kết quả public trong `outputs/` là thống kê tổng hợp, không công bố từng dòng `SBD`.
+
+## Output Phân Tích Chính
+
+Pipeline sinh thêm các bảng phục vụ Data Analysis trong `outputs/tables/`:
+
+- `data_quality_summary.csv`, `missing_by_subject_year.csv`: kiểm tra chất lượng dữ liệu.
+- `score_distribution_by_year_subject.csv`, `score_bands_by_year_subject.csv`: median, percentile và dải điểm.
+- `yearly_change_by_subject.csv`: biến động theo năm.
+- `by_region_subject_year.csv`: so sánh theo vùng.
+- `province_anomalies.csv`, `province_volatility.csv`: tỉnh/năm lệch bất thường.
+- `subject_correlation_by_year.csv`, `combination_scores_by_year.csv`: tương quan môn học và tổ hợp điểm.
+- `forecast_reliability.csv`: nhãn độ tin cậy cho dự báo.

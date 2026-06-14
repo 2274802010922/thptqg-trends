@@ -8,6 +8,7 @@ venv/
 data/cleaned_data.csv
 *.csv
 !data/provinces.csv
+!data/province_regions.csv
 !outputs/tables/*.csv
 .DS_Store
 Thumbs.db

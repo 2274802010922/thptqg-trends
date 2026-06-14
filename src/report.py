@@ -7,6 +7,7 @@ import json
 
 import pandas as pd
 
+from .advanced_report import build_report_advanced_sections
 from .config import (
     CSV_PATH,
     DOCS_DIR,
@@ -188,21 +189,23 @@ def generate_report(out_path: Path | None = None) -> Path:
         "",
         *_markdown_table(forecast_view, ["Môn", "Mô hình", "Dự báo", "Khoảng", "MAE", "RMSE"]),
         "",
-        "## 8. Hạn Chế",
+        build_report_advanced_sections(),
+        "",
+        "## 10. Hạn Chế",
         "",
         "- Chỉ có 5 điểm thời gian chính trong phạm vi nghiên cứu, nên dự báo phải xem là xu hướng tham khảo.",
         "- Thay đổi cấu trúc đề thi, quy chế thi hoặc nhóm thí sinh có thể làm mô hình sai lệch.",
         "- Một số môn năm 2025 có cấu trúc mới hoặc số lượng thí sinh thay đổi mạnh, cần diễn giải thận trọng.",
         "- Dự báo ở cấp tổng hợp, không dự đoán điểm cá nhân hay điểm của từng trường.",
         "",
-        "## 9. Hướng Phát Triển",
+        "## 11. Hướng Phát Triển",
         "",
         "- Bổ sung dữ liệu các năm tiếp theo để tăng độ ổn định của mô hình.",
-        "- Thêm phân tích phân phối điểm bằng histogram/boxplot/percentile.",
+        "- Mở rộng phân tích phân phối điểm sang cấp tỉnh/vùng nếu tài nguyên xử lý cho phép.",
         "- Thử mô hình phân cấp theo tỉnh nếu dữ liệu nhiều năm hơn.",
         "- Xuất report PDF và slide bảo vệ tự động từ pipeline.",
         "",
-        "## 10. Kết Luận",
+        "## 12. Kết Luận",
         "",
         "Project đã có pipeline tái lập từ raw CSV đến bảng, biểu đồ, báo cáo và dự báo. Phần dự báo được cải thiện bằng cách so sánh nhiều mô hình và đánh giá bằng rolling backtest, phù hợp hơn với yêu cầu của một đồ án phân tích dữ liệu.",
     ]

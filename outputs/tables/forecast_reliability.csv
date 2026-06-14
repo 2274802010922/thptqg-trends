@@ -1,0 +1,7 @@
+Mon,forecast_year,forecast_mean,selected_model,selected_model_label,backtest_n,backtest_mae,backtest_rmse,backtest_mape,interval_width,reliability_label,reliability_note
+Toan,2026,5.827,moving_average_3,Trung bình trượt 3 năm,2,0.8044,1.1349,16.8064,4.4488,Thấp,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.8044; khoảng dự báo rộng 4.449 điểm; MAPE=16.81%
+NguVan,2026,7.1167,moving_average_2,Trung bình trượt 2 năm,2,0.2954,0.3887,4.0951,1.5238,Trung bình,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.2954; khoảng dự báo rộng 1.524 điểm; MAPE=4.10%
+NgoaiNgu,2026,5.4633,moving_average_3,Trung bình trượt 3 năm,2,0.0284,0.0286,0.5192,0.3,Tương đối,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.0284; khoảng dự báo rộng 0.300 điểm; MAPE=0.52%
+VatLy,2026,6.9373,linear_trend,Hồi quy tuyến tính,2,0.1761,0.2239,2.5338,0.8776,Trung bình,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.1761; khoảng dự báo rộng 0.878 điểm; MAPE=2.53%
+HoaHoc,2026,6.4969,moving_average_3,Trung bình trượt 3 năm,2,0.3286,0.4562,5.4085,1.7884,Thấp,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.3286; khoảng dự báo rộng 1.788 điểm; MAPE=5.41%
+SinhHoc,2026,5.7783,naive_last,Naive: lấy năm gần nhất,2,0.3085,0.3665,5.2618,1.4366,Trung bình,chỉ có 2 điểm backtest do chuỗi 5 năm; MAE=0.3085; khoảng dự báo rộng 1.437 điểm; MAPE=5.26%

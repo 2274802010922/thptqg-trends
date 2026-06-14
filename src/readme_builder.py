@@ -6,6 +6,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from .advanced_report import (
+    build_advanced_charts_section,
+    build_advanced_results_section,
+    build_forecast_reliability_section,
+)
 from .charts_report import build_readme_charts_section
 from .config import (
     CSV_PATH,
@@ -239,6 +244,7 @@ thptqg-trends/
 ├── run.ps1 / run.bat
 ├── colab/THPTQG_Colab.ipynb
 ├── data/provinces.csv
+├── data/province_regions.csv
 ├── data/README.md
 ├── docs/data_dictionary.md
 ├── docs/report.md
@@ -282,6 +288,7 @@ Lệnh trên chạy `python scripts/run_all.py` → cập nhật **README.md**, 
 | `docs/report.md` | Báo cáo học thuật theo cấu trúc đồ án | Hội đồng / giảng viên |
 | `data/README.md` | Thông tin raw data và cách cấu hình | Người muốn chạy lại |
 | `docs/data_dictionary.md` | Giải thích schema dữ liệu | Người kiểm chứng dữ liệu |
+| `docs/analysis_questions.md` | Câu hỏi phân tích và giả thuyết | Hội đồng / người review hướng DA |
 | `tests/` | Kiểm tra logic xử lý và dự báo bằng dữ liệu mẫu | Người review code |
 | `outputs/tables/*.csv` | Bảng số liệu thô đã tổng hợp | Người muốn tự vẽ biểu đồ / kiểm chứng |
 | `outputs/figures/*.png` | Biểu đồ tổng quan, heatmap, dự báo | Slide, báo cáo miệng |
@@ -324,8 +331,11 @@ def build_readme(out_path: Path | None = None) -> Path:
         _section_static_2_to_4(),
         section_method_plain(),
         _section_6_results(cand, trends, named),
+        build_advanced_results_section(),
         _section_7_forecast(forecast),
+        build_forecast_reliability_section(),
         build_readme_charts_section(),
+        build_advanced_charts_section(),
         _section_static_9_to_12(),
     ]
     out_path.write_text("\n".join(parts), encoding="utf-8")
